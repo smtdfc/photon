@@ -1,0 +1,6 @@
+package {{.PackageName}}
+
+
+func (m *{{.ModuleName}}Module) InitRoute(){
+  m.Module.Route("GET","/example", m.Handler.Example)
+}

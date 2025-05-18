@@ -1,0 +1,16 @@
+package app
+
+import (
+  "github.com/smtdfc/photon/pkg/base"
+  "github.com/smtdfc/photon/pkg/echo-adapter"
+)
+
+func Init() *photon.App {
+  a := photon.NewApp(
+  echoAdapter.Init(),
+  )
+  
+  InitModule(a)
+  
+  return a
+}
