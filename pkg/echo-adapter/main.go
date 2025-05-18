@@ -2,11 +2,13 @@ package echoAdapter
 
 import(
   "fmt"
+  "errors"
   "github.com/labstack/echo/v4"
   "github.com/smtdfc/photon/pkg/base"
 )
 
 type EchoAdapter struct{
+  App *photon.App
   Name string
   Instance *echo.Echo
 }
@@ -23,8 +25,8 @@ func wrapHandler(handler photon.RouteHandler) echo.HandlerFunc{
 }
 
 
-func (a *EchoAdapter) Init(){
-  
+func (a *EchoAdapter) Init() error{
+  return nil
 }
 
 func (a *EchoAdapter) Listen(port string) error{
@@ -42,11 +44,32 @@ func (a *EchoAdapter) Route(method string, path string, handler photon.RouteHand
   }
 }
 
-
 func (a *EchoAdapter) Start() error{
   fmt.Println("Starting Photon Echo Adapter....")
   return nil
 }
+
+func (a *EchoAdapter) SetApp(app *photon.App) error{
+  a.App = app
+  return nil
+}
+
+func (e *EchoAdapter) UseSocket(path string) error {
+  socketAdapter:= e.App.SocketAdapter
+  
+	if socketAdapter == nil {
+		return errors.New("socket adapter is nil")
+	}
+
+	e.Instance.GET(path, func(c echo.Context) error {
+		handler := socketAdapter.HTTPHandler()
+		handler(c.Response(), c.Request())
+		return nil
+	})
+
+	return nil
+}
+
 
 func Init() photon.BaseAdapter{
   return &EchoAdapter{
