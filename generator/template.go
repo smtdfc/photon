@@ -1,8 +1,10 @@
 package photonGenerator
 
 import (
+	"fmt"
 	"os"
 	"path/filepath"
+	"runtime"
 	"text/template"
 )
 
@@ -12,7 +14,14 @@ type ModuleTemplateData struct {
 }
 
 func GenerateFile(path string, tmplPath string, data any) error {
-	absTmplPath := filepath.Join("../", "templates", tmplPath)
+	_, callerFile, _, ok := runtime.Caller(0)
+	if !ok {
+		return fmt.Errorf("cannot determine caller location")
+	}
+
+	baseDir := filepath.Dir(callerFile)
+
+	absTmplPath := filepath.Join(baseDir, "..", "templates", tmplPath)
 
 	tmplContent, err := os.ReadFile(absTmplPath)
 	if err != nil {
