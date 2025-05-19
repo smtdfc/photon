@@ -6,6 +6,7 @@ import(
 
 
 type BaseAdapter interface {
+	GetInstance() any
 	SetApp(app *App) error 
 	GetName() string
 	Init() error

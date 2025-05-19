@@ -24,6 +24,10 @@ func wrapHandler(handler photon.RouteHandler) echo.HandlerFunc{
   }
 }
 
+func (a *EchoAdapter) GetInstance() any{
+  return a.Instance
+}
+
 
 func (a *EchoAdapter) Init() error{
   return nil
