@@ -1,16 +1,24 @@
 package app
 
 import (
+  "fmt"
   "github.com/smtdfc/photon/pkg/base"
   "github.com/smtdfc/photon/pkg/echo-adapter"
+  //"github.com/smtdfc/photon/pkg/melody-adapter"
+  //"github.com/labstack/echo/v4"
 )
 
 func Init() *photon.App {
-  a := photon.NewApp(
-  echoAdapter.Init(),
+  httpAdapter,_:=echoAdapter.Init()
+  //socketAdapter,_ := melodyAdapter.Init(),
+  
+  app := photon.NewApp(
+    httpAdapter,
+   // socketAdapter,
   )
   
-  InitModule(a)
+  // Init modules
+  InitModule(app)
   
-  return a
+  return app
 }

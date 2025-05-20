@@ -13,13 +13,13 @@ type MelodyAdapter struct {
 	name    string
 }
 
-func Init() *MelodyAdapter {
+func Init() (*MelodyAdapter, *melody.Melody) {
 	m := melody.New()
 	return &MelodyAdapter{
 		Instance:        m,
 		handlers: make(map[string]photon.SocketEventHandler),
 		name:     "MelodyAdapter",
-	}
+	},m
 }
 
 func (m *MelodyAdapter) GetName() string {
