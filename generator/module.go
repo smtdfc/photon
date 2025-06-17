@@ -6,7 +6,6 @@ import (
 	"strings"
 )
 
-
 func GenerateModule(name, path string) error {
 	if !IsDeclarationFileExist(path) {
 		return fmt.Errorf("Cannot find declaration file!")
@@ -30,7 +29,7 @@ func GenerateModule(name, path string) error {
 		"service.go",
 		"routes.go",
 	}
-	
+
 	for _, file := range files {
 		err := CreateFileIfNotExists(filepath.Join(modulePath, file), []byte{})
 		if err != nil {

@@ -1,16 +1,14 @@
 package photonGenerator
 
-
 import (
-	"fmt"
-	"os"
-	"path/filepath"
 	"bufio"
-	"strings"
+	"fmt"
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
+	"os"
+	"path/filepath"
+	"strings"
 )
-
 
 func ReadGoModModuleName(basePath string) (string, error) {
 	file, err := os.Open(basePath + "/go.mod")
@@ -33,7 +31,6 @@ func ReadGoModModuleName(basePath string) (string, error) {
 
 	return "", fmt.Errorf("module line not found in go.mod")
 }
-
 
 func Capitalize(s string) string {
 	caser := cases.Title(language.English)

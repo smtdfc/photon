@@ -1,10 +1,10 @@
 package cmd
 
 import (
-	"os"
 	"fmt"
-	"github.com/spf13/cobra"
 	"github.com/smtdfc/photon/generator"
+	"github.com/spf13/cobra"
+	"os"
 )
 
 var genAppCmd = &cobra.Command{
@@ -17,17 +17,17 @@ var genAppCmd = &cobra.Command{
 			fmt.Printf("%s\n", err)
 			return
 		}
-		
+
 		if len(args) == 0 {
 			fmt.Println("Please add app name")
 			return
 		}
 		name := args[0]
 		fmt.Printf("Generating app: %s \n", name)
-		err = photonGenerator.GenerateApp(name,currentDir)
-		if err != nil{
+		err = photonGenerator.GenerateApp(name, currentDir)
+		if err != nil {
 			fmt.Println(err)
-		}else{
+		} else {
 			fmt.Printf("App %s generated succesfully ! \n", name)
 		}
 	},

@@ -15,9 +15,9 @@ type AppModuleDeclaration struct {
 }
 
 type AppDeclaration struct {
-	Name    string                `json:"name"`
-	Version string                `json:"version"`
-	Project string                `json:"project"`
+	Name    string                 `json:"name"`
+	Version string                 `json:"version"`
+	Project string                 `json:"project"`
 	Modules []AppModuleDeclaration `json:"modules"`
 }
 
@@ -32,8 +32,6 @@ func IsDeclarationFileExist(basePath string) bool {
 	return !info.IsDir()
 }
 
-
-
 func ReadDeclarationFile(basePath string) (*AppDeclaration, error) {
 	configPath := filepath.Join(basePath, "app.photon.json")
 
@@ -46,7 +44,6 @@ func ReadDeclarationFile(basePath string) (*AppDeclaration, error) {
 	if err := json.Unmarshal(data, &app); err != nil {
 		return nil, fmt.Errorf("invalid JSON in declaration file: %w", err)
 	}
-
 
 	if app.Name == "" || app.Version == "" || app.Project == "" {
 		return nil, errors.New("missing required fields in declaration")
@@ -69,4 +66,3 @@ func WriteDeclarationFile(basePath string, app *AppDeclaration) error {
 
 	return nil
 }
-

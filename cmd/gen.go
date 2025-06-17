@@ -1,4 +1,3 @@
-
 package cmd
 
 import (
@@ -9,7 +8,7 @@ import (
 var genCmd = &cobra.Command{
 	Use:   "gen",
 	Short: "Generate object ex: module,route ,etc",
-	Long: ``,
+	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("gen called")
 	},

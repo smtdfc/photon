@@ -2,24 +2,24 @@ package melodyAdapter
 
 import (
 	"fmt"
-	"net/http"
-	"github.com/smtdfc/photon/pkg/base"
 	"github.com/olahol/melody"
+	"github.com/smtdfc/photon/pkg/base"
+	"net/http"
 )
 
 type MelodyAdapter struct {
-	Instance       *melody.Melody
+	Instance *melody.Melody
 	handlers map[string]photon.SocketEventHandler
-	name    string
+	name     string
 }
 
 func Init() (*MelodyAdapter, *melody.Melody) {
 	m := melody.New()
 	return &MelodyAdapter{
-		Instance:        m,
+		Instance: m,
 		handlers: make(map[string]photon.SocketEventHandler),
 		name:     "MelodyAdapter",
-	},m
+	}, m
 }
 
 func (m *MelodyAdapter) GetName() string {
@@ -71,9 +71,8 @@ func (m *MelodyAdapter) Stop() error {
 	return m.Instance.Close()
 }
 
-
 func (m *MelodyAdapter) HTTPHandler() func(http.ResponseWriter, *http.Request) {
-    return func(w http.ResponseWriter, r *http.Request) {
-        m.Instance.HandleRequest(w, r)
-    }
+	return func(w http.ResponseWriter, r *http.Request) {
+		m.Instance.HandleRequest(w, r)
+	}
 }

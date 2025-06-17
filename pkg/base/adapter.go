@@ -1,13 +1,12 @@
 package photon
 
-import(
+import (
 	"net/http"
 )
 
-
 type BaseHTTPAdapter interface {
 	GetInstance() any
-	SetApp(app *App) error 
+	SetApp(app *App) error
 	GetName() string
 	Init() error
 	Start() error
@@ -27,26 +26,25 @@ type BaseSocketAdapter interface {
 }
 
 type AdapterManager struct {
-	HttpAdapter *BaseHTTPAdapter;
-	SocketAdapter *BaseSocketAdapter;
+	HttpAdapter   BaseHTTPAdapter
+	SocketAdapter BaseSocketAdapter
 }
 
-func (m *AdapterManager) UseHttpAdapter(adapter *BaseHTTPAdapter,app *App){
+func (m *AdapterManager) UseHttpAdapter(adapter BaseHTTPAdapter, app *App) {
 	m.HttpAdapter = adapter
-	m.HttpAdapter.SetApp(app)
+	adapter.SetApp(app)
 }
 
-func (m *AdapterManager) UseSocketAdapter(adapter *BaseSocketAdapter,app *App){
+func (m *AdapterManager) UseSocketAdapter(adapter BaseSocketAdapter, app *App) {
 	m.SocketAdapter = adapter
 }
 
-func (m *AdapterManager) EsureAdapter(adapterType string){
-	if(adapterType =="http" && m.HttpAdapter == nil){
+func (m *AdapterManager) EsureAdapter(adapterType string) {
+	if adapterType == "http" && m.HttpAdapter == nil {
 		panic("Cannot find Http Adapter !")
 	}
-	
-	if(adapterType =="socket" && m.SocketAdapter == nil){
+
+	if adapterType == "socket" && m.SocketAdapter == nil {
 		panic("Cannot find Socket Adapter !")
 	}
 }
-

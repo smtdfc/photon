@@ -2,11 +2,10 @@ package cmd
 
 import (
 	"fmt"
-	"os"
-	"github.com/spf13/cobra"
 	"github.com/smtdfc/photon/generator"
+	"github.com/spf13/cobra"
+	"os"
 )
-
 
 var genModuleCmd = &cobra.Command{
 	Use:   "module",
@@ -18,18 +17,18 @@ var genModuleCmd = &cobra.Command{
 			fmt.Printf("%s\n", err)
 			return
 		}
-		
+
 		if len(args) == 0 {
 			fmt.Println("Please add module name")
 			return
 		}
-		
+
 		name := args[0]
 		fmt.Printf("Generating module %s\n", name)
-		err = photonGenerator.GenerateModule(name,currentDir)
-		if err != nil{
+		err = photonGenerator.GenerateModule(name, currentDir)
+		if err != nil {
 			fmt.Printf("%s\n", err)
-		}else{
+		} else {
 			fmt.Printf("Module %s generated successfully ! \n", name)
 		}
 	},

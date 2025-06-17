@@ -7,8 +7,8 @@ import (
 )
 
 type AppTemplateData struct {
-	AppName   string
-	Module    string
+	AppName string
+	Module  string
 }
 
 func GenerateApp(name string, path string) error {
@@ -23,10 +23,10 @@ func GenerateApp(name string, path string) error {
 	}
 
 	files := map[string]string{
-		"app/app.go":          "app/app.go.tmpl",
-		"app/module.go":       "app/module.go.tmpl",
-		"main.go":             "app/main.go.tmpl",
-		"app.photon.json":     "app/app.photon.json.tmpl",
+		"app/app.go":      "app/app.go.tmpl",
+		"app/module.go":   "app/module.go.tmpl",
+		"main.go":         "app/main.go.tmpl",
+		"app.photon.json": "app/app.photon.json.tmpl",
 	}
 
 	for relPath, tmpl := range files {

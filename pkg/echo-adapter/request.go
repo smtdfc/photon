@@ -1,10 +1,10 @@
 package echoAdapter
 
 import (
-	"io"
-	"log"
 	"github.com/labstack/echo/v4"
 	"github.com/smtdfc/photon/pkg/base"
+	"io"
+	"log"
 )
 
 type EchoAdapterRequest struct {

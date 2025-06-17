@@ -5,20 +5,19 @@ import (
 )
 
 type App struct {
-	Adapter *AdapterManager
-	HttpAdapter       BaseHTTPAdapter
-	SocketAdapter BaseSocketAdapter 
+	Adapter       *AdapterManager
+	HttpAdapter   BaseHTTPAdapter
+	SocketAdapter BaseSocketAdapter
 }
 
 func (a *App) Start(port string) error {
-	m.App.Adapter.EsureAdapter("http")
-	
+	a.Adapter.EsureAdapter("http")
+
 	if err := a.Adapter.HttpAdapter.Start(); err != nil {
 		fmt.Printf("[%s]: An error occurred when starting adapter\n", a.HttpAdapter.GetName())
 		fmt.Println(err.Error())
 		return err
 	}
-
 
 	if err := a.Adapter.HttpAdapter.Listen(port); err != nil {
 		fmt.Printf("[%s]: An error occurred when listening\n", a.HttpAdapter.GetName())
@@ -39,8 +38,8 @@ func (a *App) Start(port string) error {
 
 func NewApp() *App {
 	app := &App{
-		Adapter: &AdapterManager{}
+		Adapter: &AdapterManager{},
 	}
-	
+
 	return app
 }

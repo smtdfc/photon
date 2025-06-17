@@ -1,10 +1,10 @@
 package echoAdapter
 
 import (
-	"net/http"
-	"time"
 	"github.com/labstack/echo/v4"
 	"github.com/smtdfc/photon/pkg/base"
+	"net/http"
+	"time"
 )
 
 type EchoAdapterResponse struct {
@@ -56,7 +56,6 @@ func (r *EchoAdapterResponse) SendFile(filePath string) error {
 func (r *EchoAdapterResponse) Writer() any {
 	return r.echoCtx.Response().Writer
 }
-
 
 func WrapResponse(c echo.Context) photon.Response {
 	return &EchoAdapterResponse{
