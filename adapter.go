@@ -26,16 +26,17 @@ type BaseSocketAdapter interface {
 }
 
 type AdapterManager struct {
+	App *App
 	HttpAdapter   BaseHTTPAdapter
 	SocketAdapter BaseSocketAdapter
 }
 
-func (m *AdapterManager) UseHttpAdapter(adapter BaseHTTPAdapter, app *App) {
+func (m *AdapterManager) UseHttpAdapter(adapter BaseHTTPAdapter, ) {
 	m.HttpAdapter = adapter
-	adapter.SetApp(app)
+	adapter.SetApp(m.App)
 }
 
-func (m *AdapterManager) UseSocketAdapter(adapter BaseSocketAdapter, app *App) {
+func (m *AdapterManager) UseSocketAdapter(adapter BaseSocketAdapter,) {
 	m.SocketAdapter = adapter
 }
 
