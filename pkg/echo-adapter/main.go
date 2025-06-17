@@ -75,7 +75,7 @@ func (e *EchoAdapter) UseSocket(path string) error {
 }
 
 
-func Init() (photon.BaseAdapter,*echo.Echo){
+func Init() (photon.BaseHTTPAdapter,*echo.Echo){
   ins := echo.New()
   return &EchoAdapter{
     Name: "PhotonEchoAdapter",

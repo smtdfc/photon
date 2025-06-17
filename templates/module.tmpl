@@ -13,11 +13,9 @@ import (
 type {{.ModuleName}}Module struct {
   Module *photon.Module
   App *photon.App 
-  Adapter photon.BaseAdapter
   Inject *{{.ModuleName}}ModuleInjection
   Handler *{{.ModuleName}}ModuleHandler
 }
-
 
 
 func Init(app *photon.App) *{{.ModuleName}}Module{
@@ -27,7 +25,7 @@ func Init(app *photon.App) *{{.ModuleName}}Module{
     Module:photon.NewModule("{{.ModuleName}}Module",app),
     App:app,
     Adapter:app.Adapter,
-    Inject: {{.ModuleName}}Module{}.inject(),
+    Inject: &{.ModuleName}}ModuleInjection{},
     Handler: &{{.ModuleName}}ModuleHandler{},
   }
   

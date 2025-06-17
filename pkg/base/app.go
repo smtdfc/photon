@@ -5,26 +5,29 @@ import (
 )
 
 type App struct {
-	Adapter       BaseAdapter
+	Adapter *AdapterManager
+	HttpAdapter       BaseHTTPAdapter
 	SocketAdapter BaseSocketAdapter 
 }
 
 func (a *App) Start(port string) error {
-	if err := a.Adapter.Start(); err != nil {
-		fmt.Printf("[%s]: An error occurred when starting adapter\n", a.Adapter.GetName())
+	m.App.Adapter.EsureAdapter("http")
+	
+	if err := a.Adapter.HttpAdapter.Start(); err != nil {
+		fmt.Printf("[%s]: An error occurred when starting adapter\n", a.HttpAdapter.GetName())
 		fmt.Println(err.Error())
 		return err
 	}
 
 
-	if err := a.Adapter.Listen(port); err != nil {
-		fmt.Printf("[%s]: An error occurred when listening\n", a.Adapter.GetName())
+	if err := a.Adapter.HttpAdapter.Listen(port); err != nil {
+		fmt.Printf("[%s]: An error occurred when listening\n", a.HttpAdapter.GetName())
 		fmt.Println(err.Error())
 		return err
 	}
 
 	if a.SocketAdapter != nil {
-		if err := a.SocketAdapter.Start(); err != nil {
+		if err := a.Adapter.SocketAdapter.Start(); err != nil {
 			fmt.Printf("[%s]: An error occurred when starting socket adapter\n", a.SocketAdapter.GetName())
 			fmt.Println(err.Error())
 			return err
@@ -34,15 +37,10 @@ func (a *App) Start(port string) error {
 	return nil
 }
 
-func NewApp(adapter BaseAdapter, socketAdapter ...BaseSocketAdapter) *App {
+func NewApp() *App {
 	app := &App{
-		Adapter: adapter,
+		Adapter: &AdapterManager{}
 	}
 	
-	if len(socketAdapter) > 0 {
-		app.SocketAdapter = socketAdapter[0]
-	}
-	
-	adapter.SetApp(app)
 	return app
 }

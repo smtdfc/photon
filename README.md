@@ -95,10 +95,10 @@ Access the endpoint in your browser:
 
 You can implement custom adapters by conforming to the following interfaces:
 
-### `BaseAdapter` Interface
+### `BaseHTTPAdapter` Interface
 
 ```go
-type BaseAdapter interface {
+type BaseHTTPAdapter interface {
     GetName() string
     Init() error
     Start() error

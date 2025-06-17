@@ -5,7 +5,7 @@ import(
 )
 
 
-type BaseAdapter interface {
+type BaseHTTPAdapter interface {
 	GetInstance() any
 	SetApp(app *App) error 
 	GetName() string
@@ -25,3 +25,28 @@ type BaseSocketAdapter interface {
 	Stop() error
 	HTTPHandler() func(http.ResponseWriter, *http.Request)
 }
+
+type AdapterManager struct {
+	HttpAdapter *BaseHTTPAdapter;
+	SocketAdapter *BaseSocketAdapter;
+}
+
+func (m *AdapterManager) UseHttpAdapter(adapter *BaseHTTPAdapter,app *App){
+	m.HttpAdapter = adapter
+	m.HttpAdapter.SetApp(app)
+}
+
+func (m *AdapterManager) UseSocketAdapter(adapter *BaseSocketAdapter,app *App){
+	m.SocketAdapter = adapter
+}
+
+func (m *AdapterManager) EsureAdapter(adapterType string){
+	if(adapterType =="http" && m.HttpAdapter == nil){
+		panic("Cannot find Http Adapter !")
+	}
+	
+	if(adapterType =="socket" && m.SocketAdapter == nil){
+		panic("Cannot find Socket Adapter !")
+	}
+}
+
