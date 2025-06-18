@@ -19,18 +19,19 @@ func (a *App) Start(port string) error {
 		return err
 	}
 
-	if err := a.Adapter.HttpAdapter.Listen(port); err != nil {
-		fmt.Printf("[%s]: An error occurred when listening\n", a.HttpAdapter.GetName())
-		fmt.Println(err.Error())
-		return err
-	}
+	if a.Adapter.SocketAdapter != nil {
 
-	if a.SocketAdapter != nil {
 		if err := a.Adapter.SocketAdapter.Start(); err != nil {
 			fmt.Printf("[%s]: An error occurred when starting socket adapter\n", a.SocketAdapter.GetName())
 			fmt.Println(err.Error())
 			return err
 		}
+	}
+
+	if err := a.Adapter.HttpAdapter.Listen(port); err != nil {
+		fmt.Printf("[%s]: An error occurred when listening\n", a.HttpAdapter.GetName())
+		fmt.Println(err.Error())
+		return err
 	}
 
 	return nil

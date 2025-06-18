@@ -20,7 +20,7 @@ type BaseSocketAdapter interface {
 	Init() error
 	Start() error
 	On(event string, handler SocketEventHandler)
-	Emit(client *SocketSession, event string, message *SocketEventMessage) error
+	Emit(client *SocketSession, message *SocketEventMessage) error
 	Stop() error
 	HTTPHandler() func(http.ResponseWriter, *http.Request)
 }
