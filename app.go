@@ -40,8 +40,8 @@ func NewApp() *App {
 	app := &App{
 		Adapter: &AdapterManager{},
 	}
-	
+
 	app.Adapter.App = app
-	
+
 	return app
 }

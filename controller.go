@@ -10,6 +10,7 @@ func InitHttpController(app *App, module *Module) *HttpController {
 	return &HttpController{
 		App:    app,
 		Module: module,
+		Routes: make(map[string]*Route),
 	}
 }
 
