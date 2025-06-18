@@ -136,11 +136,3 @@ type BaseSocketAdapter interface {
 Photon is licensed under the MIT License.
 © 2025 [smtdfc](https://github.com/smtdfc)
 
----
-
-## 🙏 Acknowledgments
-
-Photon proudly integrates the following open-source projects:
-
-* [Echo](https://github.com/labstack/echo) – HTTP framework
-* [Melody](https://github.com/olahol/melody) – WebSocket library
