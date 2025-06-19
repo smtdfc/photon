@@ -19,6 +19,9 @@ type BaseSocketAdapter interface {
 	GetName() string
 	Init() error
 	Start() error
+	GetRoom(id string) *SocketRoom
+	CreateRoom(id string) (*SocketRoom,error)
+	JoinRoom(id string,client *SocketSession) error
 	On(event string, handler SocketEventHandler)
 	Emit(client *SocketSession, message *SocketEventMessage) error
 	Stop() error

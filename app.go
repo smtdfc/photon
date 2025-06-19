@@ -20,7 +20,6 @@ func (a *App) Start(port string) error {
 	}
 
 	if a.Adapter.SocketAdapter != nil {
-
 		if err := a.Adapter.SocketAdapter.Start(); err != nil {
 			fmt.Printf("[%s]: An error occurred when starting socket adapter\n", a.SocketAdapter.GetName())
 			fmt.Println(err.Error())
