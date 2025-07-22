@@ -28,6 +28,7 @@ type BaseSocketAdapter interface {
 	HTTPHandler() func(http.ResponseWriter, *http.Request)
 }
 
+
 type AdapterManager struct {
 	App           *App
 	HttpAdapter   BaseHTTPAdapter
