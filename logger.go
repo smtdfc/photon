@@ -30,7 +30,6 @@ func (l *Logger) Fatal(msg string) {
 	os.Exit(1)
 }
 
-
 func CreateLogger(target string) *Logger {
 	return &Logger{
 		Target: target,
