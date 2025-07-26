@@ -10,11 +10,11 @@ type Logger struct {
 }
 
 func (l *Logger) Info(msg string) {
-	log.Printf("[INFO ][%s] %s\n", l.Target, msg)
+	log.Printf("[INFO][%s] %s\n", l.Target, msg)
 }
 
 func (l *Logger) Warn(msg string) {
-	log.Printf("[WARN ][%s] %s\n", l.Target, msg)
+	log.Printf("[WARN][%s] %s\n", l.Target, msg)
 }
 
 func (l *Logger) Error(msg string) {
@@ -26,7 +26,7 @@ func (l *Logger) Debug(msg string) {
 }
 
 func (l *Logger) Fatal(msg string) {
-	log.Printf("[FATAL][%s] %s\n", l.Target, msg)
+	log.Printf("[FATAL] [%s] %s\n", l.Target, msg)
 	os.Exit(1)
 }
 
