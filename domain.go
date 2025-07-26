@@ -78,7 +78,9 @@ type Context interface {
 	// Res() Response
 	// Set(key string, val any)
 	// Get(key string) (any, bool)
-	// Next() error
+	reset()
+	isNext() bool
+	Next() error
 }
 
 type HttpHandler func(ctx Context)

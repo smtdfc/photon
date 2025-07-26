@@ -11,37 +11,51 @@ type PathMatch struct {
 	Match  bool
 }
 
-func ParsePathParams(path string, pattern string) PathMatch {
-	var rawPath string
-	var query url.Values
-	if idx := strings.Index(path, "?"); idx != -1 {
-		rawPath = path[:idx]
-		queryPart := path[idx+1:]
-		query, _ = url.ParseQuery(queryPart)
-	} else {
-		rawPath = path
-		query = url.Values{}
-	}
-
-	pathParts := strings.Split(strings.Trim(rawPath, "/"), "/")
-	patternParts := strings.Split(strings.Trim(pattern, "/"), "/")
-
-	if len(pathParts) != len(patternParts) {
+func parsePathParams(path string, pattern string) PathMatch {
+	u, err := url.Parse(path)
+	if err != nil {
 		return PathMatch{Match: false}
 	}
 
-	params := map[string]string{}
+	path = strings.Trim(u.Path, "/")
+	query := u.Query()
 
-	for i := 0; i < len(pathParts); i++ {
+	pathParts := strings.Split(path, "/")
+	patternParts := strings.Split(strings.Trim(pattern, "/"), "/")
+
+	params := map[string]string{}
+	i := 0
+
+	for i < len(patternParts) {
+		if i >= len(pathParts) {
+			if patternParts[i] == "*" {
+				params["wildcard"] = ""
+				break
+			}
+			return PathMatch{Match: false}
+		}
+
 		pp := patternParts[i]
 		p := pathParts[i]
 
-		if strings.HasPrefix(pp, ":") {
+		switch {
+		case strings.HasPrefix(pp, ":"):
 			paramName := strings.TrimPrefix(pp, ":")
 			params[paramName] = p
-		} else if pp != p {
+
+		case pp == "*":
+			params["wildcard"] = strings.Join(pathParts[i:], "/")
+			return PathMatch{Params: params, Query: query, Match: true}
+
+		case pp != p:
 			return PathMatch{Match: false}
 		}
+		i++
+	}
+
+	if len(pathParts) != len(patternParts) && (i == len(patternParts)) {
+		// còn dư path nhưng hết pattern
+		return PathMatch{Match: false}
 	}
 
 	return PathMatch{

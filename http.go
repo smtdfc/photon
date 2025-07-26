@@ -15,11 +15,12 @@ type HttpAdapter struct {
 }
 
 type HttpAdapterContext struct {
-	Writer  http.ResponseWriter
-	Request *http.Request
-	Params  map[string]string
-	Query   url.Values
-	_req    *HttpAdapterRequest
+	Writer    http.ResponseWriter
+	Request   *http.Request
+	Params    map[string]string
+	Query     url.Values
+	nextState bool
+	_req      *HttpAdapterRequest
 }
 
 func (c *HttpAdapterContext) Req() Request {
@@ -31,12 +32,26 @@ func (c *HttpAdapterContext) Req() Request {
 	return c._req
 }
 
+func (c *HttpAdapterContext) Next() error {
+	c.nextState = true
+	return nil
+}
+
+func (c *HttpAdapterContext) reset() {
+	c.nextState = false
+}
+
+func (c *HttpAdapterContext) isNext() bool {
+	return c.nextState
+}
+
 func CreateContext(w http.ResponseWriter, r *http.Request, match PathMatch) Context {
 	return &HttpAdapterContext{
-		Writer:  w,
-		Request: r,
-		Params:  match.Params,
-		Query:   match.Query,
+		Writer:    w,
+		Request:   r,
+		Params:    match.Params,
+		Query:     match.Query,
+		nextState: false,
 	}
 }
 
@@ -61,15 +76,20 @@ func (h *HttpAdapter) handleReq(w http.ResponseWriter, r *http.Request) {
 	method := r.Method
 
 	for pattern, methodMap := range h.Routes {
-		pathMatchRes := ParsePathParams(path, pattern)
+		pathMatchRes := parsePathParams(path, pattern)
 		if pathMatchRes.Match && methodMap[method] != nil {
 			ctx := CreateContext(w, r, pathMatchRes)
 			handlers := methodMap[method]
 
 			for _, handler := range handlers {
+				ctx.reset()
 				handler(ctx)
+				if !ctx.isNext() {
+					break
+				}
 			}
 		}
+
 	}
 
 }
