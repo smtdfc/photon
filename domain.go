@@ -48,17 +48,16 @@ type Request interface {
 	GetAllForm() (map[string]string, error)
 	GetFile(name string, size int) (*File, error)
 	GetAllFiles() (map[string][]File, error)
-
 }
 
 type Response interface {
 	SetHeader(name, value string) Response
 	SetContentType(ct string) Response
-	SetCookie(name, value string, opts ...CookieOption) Response
+	SetCookie(name, value string, opts CookieOption) Response
 
 	Code(code int) Response
 
-	JSON(data any) error
+	JSON(data JSON) error
 	Text(data string) error
 	HTML(html string) error
 	File(filepath string) error
@@ -72,7 +71,7 @@ type Response interface {
 type JSON = map[string]any
 type Context interface {
 	Req() Request
-	// Res() Response
+	Res() Response
 	// Set(key string, val any)
 	// Get(key string) (any, bool)
 	Params() map[string]string

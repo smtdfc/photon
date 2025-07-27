@@ -1,6 +1,5 @@
 package photon
 
-
 import (
 	"os"
 )

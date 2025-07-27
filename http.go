@@ -19,6 +19,7 @@ type HttpAdapterContext struct {
 	_params   map[string]string
 	nextState bool
 	_req      *HttpAdapterRequest
+	_res      *HttpAdapterResponse
 }
 
 func (c *HttpAdapterContext) Params() map[string]string {
@@ -32,6 +33,15 @@ func (c *HttpAdapterContext) Req() Request {
 		}
 	}
 	return c._req
+}
+
+func (c *HttpAdapterContext) Res() Response {
+	if c._res == nil {
+		c._res = &HttpAdapterResponse{
+			Writer: c.Writer,
+		}
+	}
+	return c._res
 }
 
 func (c *HttpAdapterContext) Next() error {
