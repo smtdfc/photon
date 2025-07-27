@@ -48,10 +48,6 @@ type Request interface {
 	GetAllForm() (map[string]string, error)
 	GetFile(name string, size int) (*File, error)
 	GetAllFiles() (map[string][]File, error)
-	/*
-		GetContext() context.Context
-		SetContext(ctx context.Context)
-	*/
 
 }
 
