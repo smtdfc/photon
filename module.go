@@ -6,7 +6,7 @@ type Module struct {
 	Adapter      *AdapterManager
 	provided     any
 	injected     map[string]any
-	Router  *ModuleRouter
+	Router       *ModuleRouter
 	OnModuleInit func()
 }
 
@@ -15,31 +15,30 @@ type ModuleRouter struct {
 	Prefix string
 }
 
-func (r *ModuleRouter) Get(pattern string, handlers ...HttpHandler){
-	assertNotNil(r.Module.Adapter.Http,"HttpAdapter")
-	r.Module.Adapter.Http.AddRoute("GET",r.Prefix + pattern,handlers...)
+func (r *ModuleRouter) Get(pattern string, handlers ...HttpHandler) {
+	assertNotNil(r.Module.Adapter.Http, "HttpAdapter")
+	r.Module.Adapter.Http.AddRoute("GET", r.Prefix+pattern, handlers...)
 }
 
-func (r *ModuleRouter) Post(pattern string, handlers ...HttpHandler){
-	assertNotNil(r.Module.Adapter.Http,"HttpAdapter")
-	r.Module.Adapter.Http.AddRoute("POST",r.Prefix + pattern,handlers...)
+func (r *ModuleRouter) Post(pattern string, handlers ...HttpHandler) {
+	assertNotNil(r.Module.Adapter.Http, "HttpAdapter")
+	r.Module.Adapter.Http.AddRoute("POST", r.Prefix+pattern, handlers...)
 }
 
-func (r *ModuleRouter) Put(pattern string, handlers ...HttpHandler){
-	assertNotNil(r.Module.Adapter.Http,"HttpAdapter")
-	r.Module.Adapter.Http.AddRoute("PUT",r.Prefix + pattern,handlers...)
+func (r *ModuleRouter) Put(pattern string, handlers ...HttpHandler) {
+	assertNotNil(r.Module.Adapter.Http, "HttpAdapter")
+	r.Module.Adapter.Http.AddRoute("PUT", r.Prefix+pattern, handlers...)
 }
 
-func (r *ModuleRouter) Head(pattern string, handlers ...HttpHandler){
-	assertNotNil(r.Module.Adapter.Http,"HttpAdapter")
-	r.Module.Adapter.Http.AddRoute("HEAD",r.Prefix + pattern,handlers...)
+func (r *ModuleRouter) Head(pattern string, handlers ...HttpHandler) {
+	assertNotNil(r.Module.Adapter.Http, "HttpAdapter")
+	r.Module.Adapter.Http.AddRoute("HEAD", r.Prefix+pattern, handlers...)
 }
 
-func (r *ModuleRouter) Option(pattern string, handlers ...HttpHandler){
-	assertNotNil(r.Module.Adapter.Http,"HttpAdapter")
-	r.Module.Adapter.Http.AddRoute("OPTION",r.Prefix + pattern,handlers...)
+func (r *ModuleRouter) Option(pattern string, handlers ...HttpHandler) {
+	assertNotNil(r.Module.Adapter.Http, "HttpAdapter")
+	r.Module.Adapter.Http.AddRoute("OPTION", r.Prefix+pattern, handlers...)
 }
-
 
 func (m *Module) GetInject(edge string) any {
 	return m.injected[edge]
@@ -59,17 +58,17 @@ func (m *Module) Provide(value any) {
 
 func CreateModule(app *App, name string) *Module {
 	mod := &Module{
-		Name:    name,
-		App:     app,
-		Adapter: app.Adapter,
+		Name:     name,
+		App:      app,
+		Adapter:  app.Adapter,
 		injected: make(map[string]any),
 	}
-	
+
 	mod.Router = &ModuleRouter{
 		Module: mod,
-		Prefix:"",
+		Prefix: "",
 	}
-	
+
 	app.registerModule(name, mod)
 	return mod
 }

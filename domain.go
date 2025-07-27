@@ -26,32 +26,33 @@ type CookieOption struct {
 type Request interface {
 	GetHeader(name string) string
 	GetAllHeader() (map[string]string, error)
+
+	GetMethod() string
+	GetPath() string
+	GetFullURL() string
+
+	GetBody() (map[string]any, error)
+	GetRawBody() ([]byte, error)
+	GetBodyReusable() (map[string]any, error)
+
+	BindBody(target any) error
+
+	GetQuery(name string) string
+	GetAllQuery() map[string][]string
+
+	GetCookie(name string) (string, error)
+
+	GetFormValue(name string) string
+	GetPostFormValue(name string) (string, error)
+
+	GetAllForm() (map[string]string, error)
+	GetFile(name string, size int) (*File, error)
+	GetAllFiles() (map[string][]File, error)
 	/*
-	   GetMethod() string
-	   GetPath() string
-	   GetFullURL() string
-
-	   GetBody() (map[string]any, error)
-	   GetRawBody() ([]byte, error)
-	   BindBody(target any) error
-
-	   GetQuery(name string) string
-	   GetAllQuery() map[string]string
-
-	   GetParam(name string) string
-	   GetAllParam() map[string]string
-
-	   GetCookie(name string) (string, error)
-
-	   GetForm(name string) string
-	   GetAllForm() (map[string]string, error)
-
-	   GetFile(name string) (File, error)
-	   GetAllFiles() (map[string][]File, error)
-
-	   GetContext() context.Context
-	   SetContext(ctx context.Context)
+		GetContext() context.Context
+		SetContext(ctx context.Context)
 	*/
+
 }
 
 type Response interface {
@@ -78,7 +79,7 @@ type Context interface {
 	// Res() Response
 	// Set(key string, val any)
 	// Get(key string) (any, bool)
-	Params()map[string]string
+	Params() map[string]string
 	reset()
 	isNext() bool
 	Next() error

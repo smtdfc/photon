@@ -8,7 +8,7 @@ type Provider interface {
 	GetProvide() any
 }
 
-func Inject[T any](target Module, edge string) T {
+func Inject[T any](target *Module, edge string) T {
 	value := target.GetInject(edge)
 	if value == nil {
 		log.Fatalf("Dependency not found: %q in module %s", edge, target.Name)
@@ -20,6 +20,6 @@ func Inject[T any](target Module, edge string) T {
 	return v
 }
 
-func InjectTo(edge string, target Module, provider Provider) {
+func InjectTo(edge string, target *Module, provider Provider) {
 	target.Inject(edge, provider)
 }

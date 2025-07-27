@@ -16,12 +16,12 @@ type HttpAdapter struct {
 type HttpAdapterContext struct {
 	Writer    http.ResponseWriter
 	Request   *http.Request
-	_params    map[string]string
+	_params   map[string]string
 	nextState bool
 	_req      *HttpAdapterRequest
 }
 
-func (c *HttpAdapterContext) Params()map[string]string{
+func (c *HttpAdapterContext) Params() map[string]string {
 	return c._params
 }
 
@@ -51,7 +51,7 @@ func CreateContext(w http.ResponseWriter, r *http.Request, match PathMatch) Cont
 	return &HttpAdapterContext{
 		Writer:    w,
 		Request:   r,
-		_params:    match.Params,
+		_params:   match.Params,
 		nextState: false,
 	}
 }
