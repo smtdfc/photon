@@ -78,6 +78,7 @@ type Context interface {
 	// Res() Response
 	// Set(key string, val any)
 	// Get(key string) (any, bool)
+	Params()map[string]string
 	reset()
 	isNext() bool
 	Next() error

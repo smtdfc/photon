@@ -2,7 +2,6 @@ package photon
 
 import (
 	"net/http"
-	"net/url"
 )
 
 type HttpAdapterMethodMap = map[string][]HttpHandler
@@ -17,10 +16,13 @@ type HttpAdapter struct {
 type HttpAdapterContext struct {
 	Writer    http.ResponseWriter
 	Request   *http.Request
-	Params    map[string]string
-	Query     url.Values
+	_params    map[string]string
 	nextState bool
 	_req      *HttpAdapterRequest
+}
+
+func (c *HttpAdapterContext) Params()map[string]string{
+	return c._params
 }
 
 func (c *HttpAdapterContext) Req() Request {
@@ -49,8 +51,7 @@ func CreateContext(w http.ResponseWriter, r *http.Request, match PathMatch) Cont
 	return &HttpAdapterContext{
 		Writer:    w,
 		Request:   r,
-		Params:    match.Params,
-		Query:     match.Query,
+		_params:    match.Params,
 		nextState: false,
 	}
 }
