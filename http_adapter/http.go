@@ -1,8 +1,10 @@
 package http_adapter
 
 import (
-	"net/http"
+	"encoding/json"
+	"fmt"
 	"github.com/smtdfc/photon/logger"
+	"net/http"
 )
 
 type HttpAdapterMethodMap = map[string][]HttpHandler
@@ -85,14 +87,14 @@ func (h *HttpAdapter) handleReq(w http.ResponseWriter, r *http.Request) {
 
 	path := r.URL.String()
 	method := r.Method
-
+	isHandled := false
 	for pattern, methodMap := range h.Routes {
 		pathMatchRes := parsePathParams(path, pattern)
 		if pathMatchRes.Match && methodMap[method] != nil {
 			ctx := CreateContext(w, r, pathMatchRes)
 			handlers := methodMap[method]
-
 			for _, handler := range handlers {
+				isHandled = true
 				ctx.reset()
 				handler(ctx)
 				if !ctx.isNext() {
@@ -100,9 +102,16 @@ func (h *HttpAdapter) handleReq(w http.ResponseWriter, r *http.Request) {
 				}
 			}
 		}
-
 	}
 
+	if !isHandled {
+		fmt.Print("trigged")
+		w.WriteHeader(404)
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(map[string]string{
+			"error": "Not found: " + method + " " + path,
+		})
+	}
 }
 
 func (h *HttpAdapter) Start(port string) error {

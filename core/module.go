@@ -5,7 +5,6 @@ import (
 	"github.com/smtdfc/photon/internal/helpers"
 )
 
-
 type Module struct {
 	Name         string
 	App          *App

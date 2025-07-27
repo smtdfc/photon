@@ -1,9 +1,9 @@
 package core
 
 import (
-	"sync"
 	"github.com/smtdfc/photon/http_adapter"
 	"github.com/smtdfc/photon/logger"
+	"sync"
 )
 
 type AdapterManager struct {
