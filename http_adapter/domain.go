@@ -1,4 +1,4 @@
-package photon
+package http_adapter
 
 import (
 	//	"context"
@@ -88,6 +88,5 @@ type BaseHttpAdapter interface {
 }
 
 type HttpAdapterConfig struct {
-	App       *App
 	IsLogging bool
 }

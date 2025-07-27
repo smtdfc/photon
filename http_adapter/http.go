@@ -1,14 +1,14 @@
-package photon
+package http_adapter
 
 import (
 	"net/http"
+	"github.com/smtdfc/photon/logger"
 )
 
 type HttpAdapterMethodMap = map[string][]HttpHandler
 
 type HttpAdapter struct {
-	App    *App
-	Logger *Logger
+	Logger *logger.Logger
 	Config *HttpAdapterConfig
 	Routes map[string]HttpAdapterMethodMap
 }
@@ -118,11 +118,9 @@ func (h *HttpAdapter) Start(port string) error {
 }
 
 func CreateHttpAdapter(config *HttpAdapterConfig) BaseHttpAdapter {
-	assertNotNil(config.App, "HttpAdapterConfig.App")
 
 	return &HttpAdapter{
-		App:    config.App,
-		Logger: CreateLogger("@Adapters/Http"),
+		Logger: logger.CreateLogger("@Adapters/Http"),
 		Config: config,
 		Routes: make(map[string]HttpAdapterMethodMap),
 	}

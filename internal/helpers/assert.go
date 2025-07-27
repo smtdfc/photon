@@ -1,11 +1,11 @@
-package photon
+package helpers
 
 import (
 	"fmt"
 	"reflect"
 )
 
-func assertNotNil(val any, name string) {
+func AssertNotNil(val any, name string) {
 	if val == nil {
 		panic(fmt.Sprintf("%s must not be nil (val == nil)", name))
 	}

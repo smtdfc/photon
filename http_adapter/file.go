@@ -1,4 +1,4 @@
-package photon
+package http_adapter
 
 import (
 	"os"

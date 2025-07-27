@@ -1,16 +1,18 @@
-package photon
+package core
 
 import (
 	"sync"
+	"github.com/smtdfc/photon/http_adapter"
+	"github.com/smtdfc/photon/logger"
 )
 
 type AdapterManager struct {
-	Http BaseHttpAdapter
+	Http http_adapter.BaseHttpAdapter
 }
 
 type App struct {
 	GlobalData map[string]any
-	Logger     *Logger
+	Logger     *logger.Logger
 	Adapter    *AdapterManager
 	modules    map[string]*Module
 }
@@ -54,7 +56,7 @@ func (a *App) Start(port string) error {
 func CreateApp() *App {
 	return &App{
 		GlobalData: make(map[string]any),
-		Logger:     CreateLogger("@App"),
+		Logger:     logger.CreateLogger("@App"),
 		Adapter:    &AdapterManager{},
 		modules:    make(map[string]*Module),
 	}
