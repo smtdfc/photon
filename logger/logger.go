@@ -1,37 +1,59 @@
 package logger
 
 import (
+	"fmt"
 	"log"
 	"os"
 )
 
 type Logger struct {
-	Target string
+	target string
+	file   *os.File
+}
+
+func New(target string) *Logger {
+	l := &Logger{target: target}
+
+	if target != "stdout" {
+		f, err := os.OpenFile(target, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+		if err != nil {
+			log.Fatalf("Can't open log file %s: %v", target, err)
+		}
+		l.file = f
+	}
+
+	return l
 }
 
 func (l *Logger) Info(msg string) {
-	log.Printf("[INFO][%s] %s\n", l.Target, msg)
+	l.write("INFO", msg)
+}
+
+func (l *Logger) Success(msg string) {
+	l.write("SUCCESS", msg)
 }
 
 func (l *Logger) Warn(msg string) {
-	log.Printf("[WARN][%s] %s\n", l.Target, msg)
+	l.write("WARN", msg)
 }
 
 func (l *Logger) Error(msg string) {
-	log.Printf("[ERROR][%s] %s\n", l.Target, msg)
+	l.write("ERROR", msg)
 }
 
-func (l *Logger) Debug(msg string) {
-	log.Printf("[DEBUG][%s] %s\n", l.Target, msg)
+func (l *Logger) write(level, msg string) {
+	finalMsg := fmt.Sprintf("[%s] %s\n", level, msg)
+	if l.target == "stdout" {
+		fmt.Print(finalMsg)
+	} else {
+		if l.file != nil {
+			l.file.WriteString(finalMsg)
+		}
+	}
 }
 
-func (l *Logger) Fatal(msg string) {
-	log.Printf("[FATAL] [%s] %s\n", l.Target, msg)
-	os.Exit(1)
-}
-
-func CreateLogger(target string) *Logger {
-	return &Logger{
-		Target: target,
+func (l *Logger) Close() {
+	if l.file != nil {
+		l.file.Close()
 	}
 }

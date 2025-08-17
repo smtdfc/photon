@@ -1,25 +1,37 @@
 package core
 
 import (
-	"log"
+	"errors"
+	"fmt"
 )
 
 type Provider interface {
-	GetProvide() any
+	provide() any
 }
 
-func Inject[T any](target *Module, edge string) T {
-	value := target.GetInject(edge)
-	if value == nil {
-		log.Fatalf("Dependency not found: %q in module %s", edge, target.Name)
+func Provide[T any](target *Module, value T) {
+	target.provided = value
+}
+
+func Inject(target *Module, edge string, provider Provider) error {
+	if target.injected == nil {
+		target.injected = make(map[string]any)
 	}
-	v, ok := value.(T)
+	target.injected[edge] = provider.provide()
+	return nil
+}
+
+func Resolve[T any](target *Module, edge string) (T, error) {
+	var zero T
+	val, ok := target.injected[edge]
 	if !ok {
-		log.Fatalf("Type mismatch: expected %T but got %T", *new(T), value)
+		return zero, errors.New("Dependency " + edge + " not found")
 	}
-	return v
-}
 
-func InjectTo(edge string, target *Module, provider Provider) {
-	target.Inject(edge, provider)
+	casted, ok := val.(T)
+	if !ok {
+		return zero, fmt.Errorf("Cannot assertion for type %T", val)
+	}
+
+	return casted, nil
 }

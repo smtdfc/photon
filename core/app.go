@@ -1,63 +1,58 @@
 package core
 
 import (
-	"github.com/smtdfc/photon/http_adapter"
+	"errors"
 	"github.com/smtdfc/photon/logger"
-	"sync"
 )
 
-type AdapterManager struct {
-	Http http_adapter.BaseHttpAdapter
-}
-
 type App struct {
-	GlobalData map[string]any
-	Logger     *logger.Logger
-	Adapter    *AdapterManager
-	modules    map[string]*Module
+	Logger         *logger.Logger
+	Adapters       map[string]any
+	GlobalData     map[string]any
+	modules        map[string]*Module
+	gatewayManager *GatewayManager
 }
 
-func (a *App) registerModule(name string, mod *Module) {
-	if a.modules[name] != nil {
-		a.Logger.Warn("Module " + name + " was registered multiple times")
+func (a *App) AddAdapter(name string, adapter Adapter) error {
+	if a.Adapters[name] != nil {
+		return errors.New("Adapter " + name + " has been added")
+	} else {
+		a.Adapters[name] = adapter
+		return nil
 	}
-	a.modules[name] = mod
 }
 
-func (a *App) Start(port string) error {
-	var wg sync.WaitGroup
+func (a *App) Start() {
+	a.Logger.Info("Starting application...")
 
-	if a.Adapter.Http != nil {
-		wg.Add(1)
-		go func() {
-			defer wg.Done()
-			if err := a.Adapter.Http.Start(port); err != nil {
-				a.Logger.Error("HTTP Adapter error: " + err.Error())
-			}
-		}()
-	}
-	/*
-		if a.Adapter.Socket != nil {
-			wg.Add(1)
-			go func() {
-				defer wg.Done()
-				if err := a.Adapter.Socket.StartSocket("9090"); err != nil {
-					a.Logger.Error("Socket Adapter error: " + err.Error())
-				}
-			}()
+	for name, module := range a.modules {
+		a.Logger.Info("Initializing module: " + name)
+		if len(module.onStartCallbacks) > 0 {
+			module.triggerHook("start")
 		}
-	*/
+		
+		a.Logger.Info("Module " + name + " initialized")
+	}
 
-	a.Logger.Info("App started all active adapters")
+	wg := a.gatewayManager.StartAll()
 	wg.Wait()
-	return nil
 }
 
-func CreateApp() *App {
-	return &App{
+func (a *App) SetGateway(name string, gatewayManager Gateway) {
+	a.gatewayManager.SetGateway(name, gatewayManager)
+}
+
+func NewApp() *App {
+	app := &App{
+		Logger:     logger.New("stdout"),
 		GlobalData: make(map[string]any),
-		Logger:     logger.CreateLogger("@App"),
-		Adapter:    &AdapterManager{},
+		Adapters:   make(map[string]any),
 		modules:    make(map[string]*Module),
 	}
+
+	app.gatewayManager = &GatewayManager{
+		App: app,
+	}
+
+	return app
 }

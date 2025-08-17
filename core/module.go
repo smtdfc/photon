@@ -1,79 +1,48 @@
 package core
 
 import (
-	http "github.com/smtdfc/photon/http_adapter"
-	"github.com/smtdfc/photon/internal/helpers"
+	"errors"
+	"github.com/smtdfc/photon/logger"
 )
 
 type Module struct {
-	Name         string
-	App          *App
-	Adapter      *AdapterManager
-	provided     any
-	injected     map[string]any
-	Router       *ModuleRouter
-	OnModuleInit func()
+	App      *App
+	Logger   *logger.Logger
+	Name     string
+	provided any
+	injected map[string]any
+	onStartCallbacks  []func()
 }
 
-type ModuleRouter struct {
-	Module *Module
-	Prefix string
+func (m *Module) triggerHook(name string){
+	if(name == "start"){
+		for _,cb := range m.onStartCallbacks{
+			cb()
+		}
+	}
 }
 
-func (r *ModuleRouter) Get(pattern string, handlers ...http.HttpHandler) {
-	helpers.AssertNotNil(r.Module.Adapter.Http, "HttpAdapter")
-	r.Module.Adapter.Http.AddRoute("GET", r.Prefix+pattern, handlers...)
+func (m *Module) OnStart(callback func()){
+	m.onStartCallbacks = append(m.onStartCallbacks,callback)
 }
 
-func (r *ModuleRouter) Post(pattern string, handlers ...http.HttpHandler) {
-	helpers.AssertNotNil(r.Module.Adapter.Http, "HttpAdapter")
-	r.Module.Adapter.Http.AddRoute("POST", r.Prefix+pattern, handlers...)
+func (m *Module) inject(edge string, provider Provider) error {
+	if m.injected[edge] != nil {
+		return errors.New("Edge " + edge + " used in module " + m.Name)
+	}
+	m.injected[edge] = provider.provide()
+	return nil
 }
 
-func (r *ModuleRouter) Put(pattern string, handlers ...http.HttpHandler) {
-	helpers.AssertNotNil(r.Module.Adapter.Http, "HttpAdapter")
-	r.Module.Adapter.Http.AddRoute("PUT", r.Prefix+pattern, handlers...)
-}
-
-func (r *ModuleRouter) Head(pattern string, handlers ...http.HttpHandler) {
-	helpers.AssertNotNil(r.Module.Adapter.Http, "HttpAdapter")
-	r.Module.Adapter.Http.AddRoute("HEAD", r.Prefix+pattern, handlers...)
-}
-
-func (r *ModuleRouter) Option(pattern string, handlers ...http.HttpHandler) {
-	helpers.AssertNotNil(r.Module.Adapter.Http, "HttpAdapter")
-	r.Module.Adapter.Http.AddRoute("OPTION", r.Prefix+pattern, handlers...)
-}
-
-func (m *Module) GetInject(edge string) any {
-	return m.injected[edge]
-}
-
-func (m *Module) GetProvide() any {
+func (m *Module) provide() any {
 	return m.provided
 }
 
-func (m *Module) Inject(edge string, provider Provider) {
-	m.injected[edge] = provider.GetProvide()
-}
-
-func (m *Module) Provide(value any) {
-	m.provided = value
-}
-
-func CreateModule(app *App, name string) *Module {
-	mod := &Module{
+func NewModule(app *App, name string) *Module {
+	return &Module{
 		Name:     name,
 		App:      app,
-		Adapter:  app.Adapter,
+		Logger:   logger.New("stdout"),
 		injected: make(map[string]any),
 	}
-
-	mod.Router = &ModuleRouter{
-		Module: mod,
-		Prefix: "",
-	}
-
-	app.registerModule(name, mod)
-	return mod
 }
