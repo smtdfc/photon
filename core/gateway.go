@@ -2,9 +2,44 @@ package core
 
 import (
 	"sync"
+	"net/http"
+	"github.com/smtdfc/photon/logger"
 )
 
 
+var HttpStatus = struct {
+	OK                  int
+	Created             int
+	Accepted            int
+	NoContent           int
+	BadRequest          int
+	Unauthorized        int
+	Forbidden           int
+	NotFound            int
+	MethodNotAllowed    int
+	Conflict            int
+	InternalServerError int
+	NotImplemented      int
+	BadGateway          int
+	ServiceUnavailable  int
+	GatewayTimeout      int
+}{
+	OK:                  http.StatusOK,
+	Created:             http.StatusCreated,
+	Accepted:            http.StatusAccepted,
+	NoContent:           http.StatusNoContent,
+	BadRequest:          http.StatusBadRequest,
+	Unauthorized:        http.StatusUnauthorized,
+	Forbidden:           http.StatusForbidden,
+	NotFound:            http.StatusNotFound,
+	MethodNotAllowed:    http.StatusMethodNotAllowed,
+	Conflict:            http.StatusConflict,
+	InternalServerError: http.StatusInternalServerError,
+	NotImplemented:      http.StatusNotImplemented,
+	BadGateway:          http.StatusBadGateway,
+	ServiceUnavailable:  http.StatusServiceUnavailable,
+	GatewayTimeout:      http.StatusGatewayTimeout,
+}
 
 type Gateway interface {
 	Start() error
@@ -47,11 +82,16 @@ type HttpHandler func(HttpContext)
 
 type HttpScope interface {
 	Use(mw ...HttpHandler)
+	SetLogger(logger *logger.Logger) 
 	Get(path string, handlers ...HttpHandler)
 	Post(path string, handlers ...HttpHandler)
 	Put(path string, handlers ...HttpHandler)
 	Delete(path string, handlers ...HttpHandler)
+	Patch(path string, handlers ...HttpHandler)
 	Head(path string, handlers ...HttpHandler)
+	Options(path string, handlers ...HttpHandler)
+	Connect(path string, handlers ...HttpHandler)
+	Trace(path string, handlers ...HttpHandler)
 }
 
 type HttpGateway interface {
@@ -61,24 +101,35 @@ type HttpGateway interface {
 }
 
 
+type WsContext interface{
+	GetData() any 
+	GetEvent() string
+	GetClientID() string
+	Join(name string) error
+	Leave(name string) error
+	HasRoom(name string) bool
+	HasJoin(name string) bool
+	GetAllRoom() []string
+	CreateRoom(name string) error
+	EmitToRoom(room string,event string,data any) error
+	Emit(event string, data any) error
+}
 
-type WsContext interface{}
 type WsHandler func(WsContext)
 
 type WsNamespace interface {
-	GetAllRoom() []string
-	CreateRoom(name string)
-	EmitToRoom(event string, data map[string]any) error
-	Emit(event string, data map[string]any) error
+	SetLogger(logger *logger.Logger)
 	On(event string, handlers ...WsHandler)
 }
 
 type WsGateway interface {
 	Gateway
-	CreateNamespace(module *Module, name string) WsGateway
-	OnMessage(event string, handler any)
+	GetAllRoom() []string
+	Broadcast(event string, data any) 
+	CreateRoom(name string) error
+	HasRoom(name string) bool
+	CreateNamespace(module *Module, name string) WsNamespace
 }
-
 
 
 type GatewayManager struct {
