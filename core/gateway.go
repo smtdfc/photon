@@ -1,11 +1,10 @@
 package core
 
 import (
-	"sync"
+	"github.com/smtdfc/photon/v2/logger"
 	"net/http"
-	"github.com/smtdfc/photon/logger"
+	"sync"
 )
-
 
 var HttpStatus = struct {
 	OK                  int
@@ -82,7 +81,7 @@ type HttpHandler func(HttpContext)
 
 type HttpScope interface {
 	Use(mw ...HttpHandler)
-	SetLogger(logger *logger.Logger) 
+	SetLogger(logger *logger.Logger)
 	Get(path string, handlers ...HttpHandler)
 	Post(path string, handlers ...HttpHandler)
 	Put(path string, handlers ...HttpHandler)
@@ -100,9 +99,8 @@ type HttpGateway interface {
 	CreateScope(module *Module, prefix string) HttpScope
 }
 
-
-type WsContext interface{
-	GetData() any 
+type WsContext interface {
+	GetData() any
 	GetEvent() string
 	GetClientID() string
 	Join(name string) error
@@ -111,7 +109,7 @@ type WsContext interface{
 	HasJoin(name string) bool
 	GetAllRoom() []string
 	CreateRoom(name string) error
-	EmitToRoom(room string,event string,data any) error
+	EmitToRoom(room string, event string, data any) error
 	Emit(event string, data any) error
 }
 
@@ -125,12 +123,11 @@ type WsNamespace interface {
 type WsGateway interface {
 	Gateway
 	GetAllRoom() []string
-	Broadcast(event string, data any) 
+	Broadcast(event string, data any)
 	CreateRoom(name string) error
 	HasRoom(name string) bool
 	CreateNamespace(module *Module, name string) WsNamespace
 }
-
 
 type GatewayManager struct {
 	App  *App
@@ -173,10 +170,9 @@ func (g *GatewayManager) StartAll() sync.WaitGroup {
 			g.App.Logger.Info("WS Gateway stopped")
 		}()
 	}
-	
+
 	return wg
 }
-
 
 func ResolveGateway[T Gateway](module *Module, name string) T {
 	var zero T

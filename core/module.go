@@ -2,28 +2,28 @@ package core
 
 import (
 	"errors"
-	"github.com/smtdfc/photon/logger"
+	"github.com/smtdfc/photon/v2/logger"
 )
 
 type Module struct {
-	App      *App
-	Logger   *logger.Logger
-	Name     string
-	provided any
-	injected map[string]any
-	onStartCallbacks  []func()
+	App              *App
+	Logger           *logger.Logger
+	Name             string
+	provided         any
+	injected         map[string]any
+	onStartCallbacks []func()
 }
 
-func (m *Module) triggerHook(name string){
-	if(name == "start"){
-		for _,cb := range m.onStartCallbacks{
+func (m *Module) triggerHook(name string) {
+	if name == "start" {
+		for _, cb := range m.onStartCallbacks {
 			cb()
 		}
 	}
 }
 
-func (m *Module) OnStart(callback func()){
-	m.onStartCallbacks = append(m.onStartCallbacks,callback)
+func (m *Module) OnStart(callback func()) {
+	m.onStartCallbacks = append(m.onStartCallbacks, callback)
 }
 
 func (m *Module) inject(edge string, provider Provider) error {

@@ -2,7 +2,7 @@ package core
 
 import (
 	"errors"
-	"github.com/smtdfc/photon/logger"
+	"github.com/smtdfc/photon/v2/logger"
 )
 
 type App struct {
@@ -30,7 +30,7 @@ func (a *App) Start() {
 		if len(module.onStartCallbacks) > 0 {
 			module.triggerHook("start")
 		}
-		
+
 		a.Logger.Info("Module " + name + " initialized")
 	}
 
