@@ -2,12 +2,11 @@ package core
 
 import (
 	"errors"
-	"github.com/smtdfc/photon/v2/core/logger"
 )
 
 type Module struct {
 	App              *App
-	Logger           *logger.Logger
+	Logger           *Logger
 	Name             string
 	provided         any
 	injected         map[string]any
@@ -41,7 +40,7 @@ func (m *Module) provide() any {
 func NewModule(name string) *Module {
 	return &Module{
 		Name:     name,
-		Logger:   logger.New("stdout"),
+		Logger:   NewLogger("stdout"),
 		injected: make(map[string]any),
 	}
 }

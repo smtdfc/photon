@@ -2,11 +2,10 @@ package core
 
 import (
 	"errors"
-	"github.com/smtdfc/photon/v2/core/logger"
 )
 
 type App struct {
-	Logger         *logger.Logger
+	Logger         *Logger
 	Adapters       map[string]any
 	GlobalData     map[string]any
 	modules        map[string]*Module
@@ -55,7 +54,7 @@ func (a *App) SetGateway(name string, gatewayManager Gateway) {
 
 func NewApp() *App {
 	app := &App{
-		Logger:     logger.New("stdout"),
+		Logger:     NewLogger("stdout"),
 		GlobalData: make(map[string]any),
 		Adapters:   make(map[string]any),
 		modules:    make(map[string]*Module),

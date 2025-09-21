@@ -1,7 +1,6 @@
 package core
 
 import (
-	"github.com/smtdfc/photon/v2/core/logger"
 	"net/http"
 	"sync"
 )
@@ -81,7 +80,7 @@ type HttpHandler func(HttpContext)
 
 type HttpScope interface {
 	Use(mw ...HttpHandler)
-	SetLogger(logger *logger.Logger)
+	SetLogger(logger *Logger)
 	Get(path string, handlers ...HttpHandler)
 	Post(path string, handlers ...HttpHandler)
 	Put(path string, handlers ...HttpHandler)
@@ -116,7 +115,7 @@ type WsContext interface {
 type WsHandler func(WsContext)
 
 type WsNamespace interface {
-	SetLogger(logger *logger.Logger)
+	SetLogger(logger *Logger)
 	On(event string, handlers ...WsHandler)
 }
 

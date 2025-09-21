@@ -1,4 +1,4 @@
-package logger
+package core
 
 import (
 	"fmt"
@@ -11,7 +11,7 @@ type Logger struct {
 	file   *os.File
 }
 
-func New(target string) *Logger {
+func NewLogger(target string) *Logger {
 	l := &Logger{target: target}
 
 	if target != "stdout" {
