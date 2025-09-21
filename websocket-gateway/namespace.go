@@ -2,17 +2,16 @@ package websocketGateway
 
 import (
 	"github.com/smtdfc/photon/v2/core"
-	"github.com/smtdfc/photon/v2/core/logger"
 )
 
 type Namespace struct {
 	Gateway *Gateway
 	Module  *core.Module
 	name    string
-	logger  *logger.Logger
+	logger  *core.Logger
 }
 
-func (n *Namespace) SetLogger(logger *logger.Logger) {
+func (n *Namespace) SetLogger(logger *core.Logger) {
 	n.logger = logger
 }
 
