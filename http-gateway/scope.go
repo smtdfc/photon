@@ -2,11 +2,10 @@ package httpGateway
 
 import (
 	"github.com/smtdfc/photon/v2/core"
-	"github.com/smtdfc/photon/v2/core/logger"
 )
 
 type Scope struct {
-	logger      *logger.Logger
+	logger      *core.Logger
 	prefix      string
 	Gateway     *Gateway
 	Middlewares []core.HttpHandler
@@ -16,7 +15,7 @@ func (s *Scope) Use(mw ...core.HttpHandler) {
 	s.Middlewares = append(s.Middlewares, mw...)
 }
 
-func (s *Scope) SetLogger(logger *logger.Logger) {
+func (s *Scope) SetLogger(logger *core.Logger) {
 	s.logger = logger
 }
 
