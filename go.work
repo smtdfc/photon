@@ -1,0 +1,10 @@
+go 1.25.1
+
+use (
+	./cli
+	./core
+	./dix
+	./http-gateway
+	./websocket-gateway
+	./local
+)
