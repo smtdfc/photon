@@ -1,0 +1,20 @@
+package app
+
+import (
+  "github.com/smtdfc/photon/v2/core"
+  "github.com/smtdfc/photon/http-gateway"
+)
+
+func NewApp() *core.App{
+	app := core.NewApp()
+	app.SetGateway(
+		"http",
+		httpGateway.New(httpGateway.Config{}),
+	)
+	
+	return app
+}
+
+func Init(app *core.App) error{
+	return app.Start()
+}

@@ -1,7 +1,7 @@
 package core
 
 import (
-	"github.com/smtdfc/photon/v2/logger"
+	"github.com/smtdfc/photon/v2/core/logger"
 	"net/http"
 	"sync"
 )

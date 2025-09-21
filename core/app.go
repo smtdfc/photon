@@ -2,7 +2,7 @@ package core
 
 import (
 	"errors"
-	"github.com/smtdfc/photon/v2/logger"
+	"github.com/smtdfc/photon/v2/core/logger"
 )
 
 type App struct {
@@ -11,6 +11,16 @@ type App struct {
 	GlobalData     map[string]any
 	modules        map[string]*Module
 	gatewayManager *GatewayManager
+}
+
+func (a *App) AddModule(module *Module) error {
+	if a.modules[module.Name] != nil {
+		return errors.New("Adapter " + module.Name + " has been added")
+	} else {
+		a.modules[module.Name] = module
+		module.App = a
+		return nil
+	}
 }
 
 func (a *App) AddAdapter(name string, adapter Adapter) error {
@@ -22,7 +32,7 @@ func (a *App) AddAdapter(name string, adapter Adapter) error {
 	}
 }
 
-func (a *App) Start() {
+func (a *App) Start() error {
 	a.Logger.Info("Starting application...")
 
 	for name, module := range a.modules {
@@ -36,6 +46,7 @@ func (a *App) Start() {
 
 	wg := a.gatewayManager.StartAll()
 	wg.Wait()
+	return nil
 }
 
 func (a *App) SetGateway(name string, gatewayManager Gateway) {

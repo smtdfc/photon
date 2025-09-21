@@ -2,7 +2,7 @@ package core
 
 import (
 	"errors"
-	"github.com/smtdfc/photon/v2/logger"
+	"github.com/smtdfc/photon/v2/core/logger"
 )
 
 type Module struct {
@@ -38,10 +38,9 @@ func (m *Module) provide() any {
 	return m.provided
 }
 
-func NewModule(app *App, name string) *Module {
+func NewModule(name string) *Module {
 	return &Module{
 		Name:     name,
-		App:      app,
 		Logger:   logger.New("stdout"),
 		injected: make(map[string]any),
 	}
