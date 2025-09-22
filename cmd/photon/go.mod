@@ -1,4 +1,4 @@
-module github.com/smtdfc/photon/photon
+module github.com/smtdfc/photon/cmd/photon
 
 go 1.24.5
 
