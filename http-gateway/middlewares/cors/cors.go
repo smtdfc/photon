@@ -1,7 +1,7 @@
 package cors
 
 import (
-	"github.com/smtdfc/photon/v2/core"
+	"github.com/smtdfc/photon/core"
 	"strings"
 )
 

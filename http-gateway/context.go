@@ -7,7 +7,7 @@ import (
 	"os"
 	"sync"
 
-	"github.com/smtdfc/photon/v2/core"
+	"github.com/smtdfc/photon/core"
 )
 
 type Context struct {

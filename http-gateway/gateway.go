@@ -2,7 +2,7 @@ package httpGateway
 
 import (
 	"fmt"
-	"github.com/smtdfc/photon/v2/core"
+	"github.com/smtdfc/photon/core"
 	"net/http"
 )
 
