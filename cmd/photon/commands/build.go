@@ -2,10 +2,11 @@ package commands
 
 import (
 	"fmt"
-	"github.com/smtdfc/photon/cli/domain"
-	"github.com/smtdfc/photon/cli/helpers"
-	"github.com/urfave/cli/v2"
 	"path/filepath"
+
+	"github.com/smtdfc/photon/cmd/photon/domain"
+	"github.com/smtdfc/photon/cmd/photon/helpers"
+	"github.com/urfave/cli/v2"
 )
 
 func Build(c *cli.Context) error {

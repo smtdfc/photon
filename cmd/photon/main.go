@@ -5,7 +5,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/smtdfc/photon/cli/commands"
+	"github.com/smtdfc/photon/cmd/photon/commands"
 	"github.com/urfave/cli/v2"
 )
 

@@ -10,7 +10,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/gorilla/websocket"
-	"github.com/smtdfc/photon/v2/core"
+	"github.com/smtdfc/photon/core"
 )
 
 func generateClientID() string {

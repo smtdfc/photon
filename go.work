@@ -1,10 +1,9 @@
 go 1.25.1
 
 use (
-	./cli
+	./cmd/photon
 	./core
 	./dix
 	./http-gateway
 	./websocket-gateway
-	./local
 )

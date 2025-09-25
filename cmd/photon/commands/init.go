@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 	"runtime"
 
-	"github.com/smtdfc/photon/cli/helpers"
+	"github.com/smtdfc/photon/cmd/photon/helpers"
 	"github.com/urfave/cli/v2"
 )
 

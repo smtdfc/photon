@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"path/filepath"
 
-	"github.com/smtdfc/photon/cli/domain"
-	"github.com/smtdfc/photon/cli/helpers"
+	"github.com/smtdfc/photon/cmd/photon/domain"
+	"github.com/smtdfc/photon/cmd/photon/helpers"
 	"github.com/urfave/cli/v2"
 )
 

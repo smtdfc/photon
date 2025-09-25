@@ -6,8 +6,8 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/smtdfc/photon/cli/domain"
-	"github.com/smtdfc/photon/cli/helpers"
+	"github.com/smtdfc/photon/cmd/photon/domain"
+	"github.com/smtdfc/photon/cmd/photon/helpers"
 	"github.com/smtdfc/photon/dix"
 	"github.com/urfave/cli/v2"
 )
