@@ -5,12 +5,13 @@ import (
 )
 
 type Module struct {
-	App              *App
-	Logger           *Logger
-	Name             string
-	provided         any
-	injected         map[string]any
-	onStartCallbacks []func()
+	App                *App
+	Logger             *Logger
+	Name               string
+	provided           any
+	injected           map[string]any
+	onStartCallbacks   []func()
+	onPrepareCallbacks []func()
 }
 
 func (m *Module) triggerHook(name string) {
@@ -19,10 +20,20 @@ func (m *Module) triggerHook(name string) {
 			cb()
 		}
 	}
+
+	if name == "prepare" {
+		for _, cb := range m.onPrepareCallbacks {
+			cb()
+		}
+	}
 }
 
 func (m *Module) OnStart(callback func()) {
 	m.onStartCallbacks = append(m.onStartCallbacks, callback)
+}
+
+func (m *Module) OnPrepare(callback func()) {
+	m.onPrepareCallbacks = append(m.onPrepareCallbacks, callback)
 }
 
 func (m *Module) inject(edge string, provider Provider) error {

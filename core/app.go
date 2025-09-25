@@ -18,6 +18,7 @@ func (a *App) AddModule(module *Module) error {
 	} else {
 		a.modules[module.Name] = module
 		module.App = a
+		module.triggerHook("prepare")
 		return nil
 	}
 }
