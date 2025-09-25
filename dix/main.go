@@ -68,7 +68,7 @@ func GenFromConfigFile(path string) (string, error) {
 			MergeConfig(config.Pkg, subConfig, config)
 		}
 	}
-	prettyPrint(config)
+
 	generator := NewGenerator(config)
 	code, err := generator.Generate()
 	if err != nil {

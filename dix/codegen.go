@@ -141,7 +141,7 @@ func (g *Generator) Generate() (string, error) {
 	for _, dep := range order {
 		_ = g.GenExprForDep(dep)
 	}
-	prettyPrint(g.Graph)
+
 	for name, id := range g.Singleton {
 		if name == "Root" {
 			continue
