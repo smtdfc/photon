@@ -6,5 +6,6 @@ use (
 	./dix
 	./helpers/photon-releaser
 	./http-gateway
+	./local
 	./websocket-gateway
 )
