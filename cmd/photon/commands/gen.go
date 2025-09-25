@@ -13,10 +13,10 @@ import (
 )
 
 func GenModule(config *domain.Config, appName, moduleName, pkgName, projPath string) error {
-	fmt.Printf("[@%s] Generating module '%s'...\n", appName, moduleName)
+	fmt.Printf("Generating module '%s'...\n", moduleName)
 
 	if !helpers.IsPascalCase(moduleName) {
-		return fmt.Errorf("[@%s] Invalid module name: '%s'. Module names must follow CamelCase format.", appName, moduleName)
+		return fmt.Errorf("Invalid module name: '%s'. Module names must follow CamelCase format.", moduleName)
 	}
 
 	callDir := GetCallerDir()
@@ -70,7 +70,7 @@ func GenModule(config *domain.Config, appName, moduleName, pkgName, projPath str
 		return fmt.Errorf("Failed to update Dix configuration [%s]: %v", config.DixConfig, err)
 	}
 
-	fmt.Printf("[@%s] Module '%s' created successfully.\n", appName, moduleName)
+	fmt.Printf("Module '%s' created successfully.\n", moduleName)
 	return nil
 }
 

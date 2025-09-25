@@ -38,7 +38,7 @@ func Build(c *cli.Context) error {
 		return fmt.Errorf("Failed to generate Dix dependency injection code: %v", err)
 	}
 
-	fmt.Printf("[@%s] Building application...\n", appName)
+	fmt.Printf("Building application...\n")
 	if _, err := helpers.SpawnCommand("go", []string{"build", "-o", "bin/" + appName, entryPoint}, true); err != nil {
 		return fmt.Errorf("Build failed for application [%s]: %v", appName, err)
 	}

@@ -33,6 +33,6 @@ func Test(c *cli.Context) error {
 		return fmt.Errorf("Tests failed for application [%s]: %v", appName, err)
 	}
 
-	fmt.Printf("[@%s] Tests completed successfully.\n", appName)
+	fmt.Printf("Tests completed successfully.\n")
 	return nil
 }

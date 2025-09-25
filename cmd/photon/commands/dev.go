@@ -38,7 +38,7 @@ func Dev(c *cli.Context) error {
 		return fmt.Errorf("Failed to generate Dix dependency injection code: %v", err)
 	}
 
-	fmt.Printf("[@%s] Starting application...\n", appName)
+	fmt.Printf("Starting application...\n")
 	if _, err := helpers.SpawnCommand("go", []string{"run", entryPoint}, true); err != nil {
 		return fmt.Errorf("Application [%s] failed to start: %v", appName, err)
 	}
