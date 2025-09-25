@@ -15,8 +15,8 @@
 ## 🚀 Installation
 
 ```bash
-go get github.com/smtdfc/photon
-go get github.com/smtdfc/photon-http-gateway
+go get github.com/smtdfc/photon/core
+go get github.com/smtdfc/photon/http-gateway
 go install github.com/smtdfc/photon/cli
 ```
 
