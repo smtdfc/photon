@@ -28,7 +28,7 @@ func self() *core.Module{
 
 func New{{.ModuleName}}Module() *core.Module{
   module = core.NewModule("{{.ModuleName}}")
-  onModuleInit()
-  module.OnStart(onModuleStart)
+  module.OnPrepare(onPrepare)
+  module.OnStart(onStart)
   return module
 }
