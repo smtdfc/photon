@@ -4,6 +4,7 @@ use (
 	./cmd/photon
 	./core
 	./dix
+	./helpers/photon-releaser
 	./http-gateway
 	./websocket-gateway
 )
